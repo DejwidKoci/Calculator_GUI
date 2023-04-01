@@ -41,7 +41,7 @@ class Calculator:
             self.buttons_frame.columnconfigure(i, weight = 1)
         
         self.create_digit_buttons()
-
+        self.create_operator_buttons()
         
     def create_display_frame(self):
         frame = tk.Frame(self.window, height = 221, bg = LIGHT_GRAY)
@@ -74,6 +74,28 @@ class Calculator:
                                 fg = LABEL_COLOR, font = DIGIT_FONT_STYLE, borderwidth = 0,
                                 command = lambda x = digit: self.add_to_expression(x))
             buttom.grid(row = grid_value[0], column = grid_value[1], sticky = tk.NSEW)
+    
+    def append_operation(self, operation):
+        self.current_expression += operation
+        self.total_expression += self.current_expression
+        self.current_expression = ""
+        self.update_total_label()
+        self.update_label()
+    
+    def create_operator_buttons(self):
+        i = 0
+        for operator, symbol in self.operations.items():
+            button = tk.Button(self.buttons_frame, text = symbol, bg = OFF_WHITE,
+                                fg = LABEL_COLOR, font = DEFAULT_FONT_STYLE, 
+                                borderwidth = 0, command = lambda x = operator: self.append_operation(x) )
+            button.grid(row = i, column = 4, sticky = tk.NSEW)
+            i += 1
+    
+    def update_total_label(self):
+        expression = self.total_expression
+        for operator, symbol in self.operations.items():
+            expression = expression.replace(operator, f'{symbol}')
+        self.total_label.config(text = expression)
     
     def update_label(self):
         self.label.config(text = self.current_expression[:11])
