@@ -42,6 +42,8 @@ class Calculator:
         
         self.create_digit_buttons()
         self.create_operator_buttons()
+        self.create_special_buttons()
+
         
     def create_display_frame(self):
         frame = tk.Frame(self.window, height = 221, bg = LIGHT_GRAY)
@@ -90,7 +92,22 @@ class Calculator:
                                 borderwidth = 0, command = lambda x = operator: self.append_operation(x) )
             button.grid(row = i, column = 4, sticky = tk.NSEW)
             i += 1
-    
+
+    def create_special_buttons(self):
+        self.create_clear_button()
+        
+    def clear(self):
+        self.current_expression = ""
+        self.total_expression = ""
+        self.update_label()
+        self.update_total_label()
+        
+    def create_clear_button(self):
+        button = tk.Button(self.buttons_frame, text = "C", bg = OFF_WHITE,
+                                fg = LABEL_COLOR, font = DEFAULT_FONT_STYLE,
+                                borderwidth = 0, command = self.clear )
+        button.grid(row = 0, column = 1, sticky = tk.NSEW)
+
     def update_total_label(self):
         expression = self.total_expression
         for operator, symbol in self.operations.items():
