@@ -43,7 +43,7 @@ class Calculator:
         self.create_digit_buttons()
         self.create_operator_buttons()
         self.create_special_buttons()
-        
+        self.bind_keys()
 
         
     def create_display_frame(self):
@@ -156,6 +156,13 @@ class Calculator:
                                 borderwidth = 0, command = self.sqrt )
         button.grid(row = 0, column = 3, sticky = tk.NSEW)
 
+    def bind_keys(self):
+        self.window.bind("<Return>", lambda event: self.evaluate())
+        for key in self.digits:
+            self.window.bind(str(key), lambda event, digit = key: self.add_to_expression(digit))
+        
+        for key in self.operations:
+            self.window.bind(key, lambda event, operator = key: self.append_operation(operator))
 
     def update_total_label(self):
         expression = self.total_expression
