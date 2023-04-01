@@ -43,7 +43,7 @@ class Calculator:
         self.create_digit_buttons()
         self.create_operator_buttons()
         self.create_special_buttons()
-        self.create_square_button()
+        
 
         
     def create_display_frame(self):
@@ -98,7 +98,8 @@ class Calculator:
     def create_special_buttons(self):
         self.create_clear_button()
         self.create_equals_button()
-        
+        self.create_square_button()
+        self.create_sqrt_button()
 
     def clear(self):
         self.current_expression = ""
@@ -143,6 +144,17 @@ class Calculator:
                                 fg = LABEL_COLOR, font = DEFAULT_FONT_STYLE,
                                 borderwidth = 0, command = self.square )
         button.grid(row = 0, column = 2, sticky = tk.NSEW)
+
+
+    def sqrt(self):
+        self.current_expression = str(eval(f"{self.current_expression}**(1/2)"))
+        self.update_label()
+
+    def create_sqrt_button(self):
+        button = tk.Button(self.buttons_frame, text = "\u221ax", bg = OFF_WHITE,
+                                fg = LABEL_COLOR, font = DEFAULT_FONT_STYLE,
+                                borderwidth = 0, command = self.sqrt )
+        button.grid(row = 0, column = 3, sticky = tk.NSEW)
 
 
     def update_total_label(self):
